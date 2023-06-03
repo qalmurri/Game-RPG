@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-@export var speed = 60
+@export var walk = 60
+@export var run = 2
 @onready var animation_tree : AnimationTree = $AnimationTree
 
 var direction : Vector2 = Vector2.ZERO
@@ -14,7 +15,10 @@ func _process(_delta):
 func _physics_process(_delta):
 	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
 	if direction:
-		velocity = direction * speed
+		if (Input.is_action_pressed("ui_accept")):
+			velocity = direction * walk * run
+		else:
+			velocity = direction * walk
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide()
